@@ -43,6 +43,7 @@
       background: #1d2958;
       border-bottom: 1px solid rgba(0, 0, 0, 0.15);
       line-height: 0;
+      padding-top: env(safe-area-inset-top);
     }
 
     .header-hero-img {
@@ -53,8 +54,8 @@
 
     .menu-btn {
       position: absolute;
-      right: 18px;
-      top: 18px;
+      right: calc(18px + env(safe-area-inset-right));
+      top: calc(18px + env(safe-area-inset-top));
       border: 2px solid #efde21;
       background: rgba(18, 33, 83, 0.88);
       padding: 14px;
@@ -517,11 +518,11 @@
       }
 
       .menu-btn {
-        right: 12px;
-        top: 12px;
+        right: calc(10px + env(safe-area-inset-right));
+        top: calc(10px + env(safe-area-inset-top));
         min-width: 50px;
         min-height: 50px;
-        padding: 10px;
+        padding: 9px;
       }
 
       .menu-icon {
@@ -531,6 +532,22 @@
 
       .menu-icon span {
         height: 3px;
+      }
+
+      .menu-panel {
+        width: min(320px, 94vw);
+        padding: calc(12px + env(safe-area-inset-top)) 14px calc(16px + env(safe-area-inset-bottom));
+        gap: 8px;
+      }
+
+      .nav-categories {
+        font-size: 28px;
+        margin: 2px 0 10px;
+      }
+
+      .menu-item {
+        font-size: 20px;
+        padding: 10px 8px;
       }
     }
   </style>
