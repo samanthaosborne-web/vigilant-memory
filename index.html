@@ -40,7 +40,7 @@
     header {
       position: sticky;
       top: 0;
-      z-index: 50;
+      z-index: 10000;
       background: #1d2958;
       border-bottom: 1px solid rgba(0, 0, 0, 0.12);
       padding: 22px 18px;
@@ -55,14 +55,21 @@
       align-items: center;
       text-align: center;
       gap: 10px;
+      padding-inline: 64px;
     }
 
-    .logo-text {
-      font-size: 28px;
-      font-weight: 900;
-      letter-spacing: 0.5px;
-      color: #ffffff;
-      margin-bottom: 4px;
+    .logo-wrap {
+      background: #ffffff;
+      width: min(560px, 100%);
+      padding: 8px 12px;
+      border-radius: 2px;
+      line-height: 0;
+    }
+
+    .logo-img {
+      width: 100%;
+      height: auto;
+      display: block;
     }
 
     .header-title {
@@ -91,6 +98,7 @@
       cursor: pointer;
       min-width: 46px;
       min-height: 46px;
+      z-index: 10030;
     }
 
     .menu-btn:focus {
@@ -107,7 +115,7 @@
       background: #ffffff;
       transform: translateX(110%);
       transition: transform 180ms ease;
-      z-index: 60;
+      z-index: 10020;
       padding: 18px 16px;
       display: flex;
       flex-direction: column;
@@ -127,7 +135,7 @@
       opacity: 0;
       pointer-events: none;
       transition: opacity 220ms ease;
-      z-index: 55;
+      z-index: 10010;
     }
 
     .menu-backdrop.open {
@@ -493,6 +501,17 @@
       pointer-events: none;
       user-select: none;
     }
+
+    @media (max-width: 640px) {
+      .header-center {
+        padding-inline: 56px;
+      }
+
+      .logo-wrap {
+        width: min(360px, 100%);
+        padding: 6px 8px;
+      }
+    }
   </style>
 </head>
 
@@ -501,7 +520,9 @@
 
   <header class="site-header">
     <div class="header-center">
-      <div class="logo-text">PROFITABLE TRADIE</div>
+      <div class="logo-wrap">
+        <img class="logo-img" src="./assets/profitable-tradie-logo.svg" alt="Profitable Tradie" />
+      </div>
       <div class="header-text">
         <h1 class="header-title">Business Toolkit</h1>
         <p class="header-subtitle">Click a card to reveal the prompt. Use the menu to switch categories.</p>
