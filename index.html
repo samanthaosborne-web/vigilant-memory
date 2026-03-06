@@ -59,6 +59,7 @@
     }
 
     .logo-wrap {
+      width: min(560px, 100%);
       background: #ffffff;
       width: min(560px, 100%);
       padding: 8px 12px;
@@ -508,6 +509,7 @@
       }
 
       .logo-wrap {
+        width: min(420px, 100%);
         width: min(360px, 100%);
         padding: 6px 8px;
       }
@@ -1714,6 +1716,8 @@
       }
     };
     let current = "Winning Work";
+    const VOICE_TONE_GUIDE = "Use a straightforward, grounded Australian tone that feels warm, capable, and no fuss. Keep the language natural, clear, and friendly, with a bit of dry wit where it fits.";
+    const COMMUNICATION_CATEGORIES = new Set(["Winning Work", "Getting Paid", "Job Updates", "Reviews & Referrals", "Fix My Message"]);
 
     function fallbackCopy(text, btn) {
       const ta = document.createElement("textarea");
@@ -1746,6 +1750,14 @@
       document.querySelectorAll(".menu-item").forEach((btn) => {
         btn.classList.toggle("active", btn.dataset.key === current);
       });
+    }
+
+    function addVoiceToneInstruction(text, card) {
+      const quickLabels = (card.ui?.quickInputs || []).map((qi) => qi.label.toLowerCase());
+      const looksLikeCommsPrompt = quickLabels.includes("channel") || quickLabels.includes("message type") || /write a \[channel\]|sms|email|write a short \[channel\]|reply/i.test(text);
+      const shouldApply = COMMUNICATION_CATEGORIES.has(current) || looksLikeCommsPrompt;
+      if (!shouldApply || text.includes(VOICE_TONE_GUIDE)) return text;
+      return text + "\n\nVoice tone:\n" + VOICE_TONE_GUIDE;
     }
 
     function render() {
@@ -1852,6 +1864,7 @@
                 });
               }
             }
+            newText = addVoiceToneInstruction(newText, card);
             if (promptBlocks[idx]) promptBlocks[idx].textContent = globalPrefix + newText;
           });
         };
@@ -1964,6 +1977,7 @@
           pre.className = "prompt-text";
           // Inject global fields on initial load
           let initialText = p;
+          initialText = addVoiceToneInstruction(initialText, card);
           const fName = document.getElementById("globalFirstName").value.trim();
           const bName = document.getElementById("globalBizName").value.trim();
           let globalPrefix = "";
