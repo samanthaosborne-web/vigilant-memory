@@ -240,6 +240,8 @@
       background: #1d2958;
       display: flex;
       flex-direction: column;
+      box-shadow: 0 10px 24px rgba(12, 18, 44, 0.22);
+      transition: box-shadow 0.2s ease;
     }
 
     @media (min-width: 860px) {
@@ -250,6 +252,7 @@
 
     .card.open {
       background: #ffffff;
+      box-shadow: 0 14px 30px rgba(12, 18, 44, 0.28);
     }
 
     .card-head {
@@ -287,6 +290,28 @@
       min-width: 118px;
       font-weight: 400;
       color: #efde21;
+    }
+
+    .reveal-btn {
+      margin-top: 14px;
+      width: 100%;
+      background: #efde21;
+      color: #1d2958;
+      border: 2px solid #efde21;
+      padding: 10px 12px;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .reveal-btn:hover {
+      filter: brightness(0.95);
+    }
+
+    .reveal-btn:focus {
+      outline: 3px solid rgba(239, 222, 33, 0.35);
+      outline-offset: 2px;
     }
 
     .card-body {
@@ -1827,6 +1852,11 @@
         addRow("ROI:", card.front?.roi);
         addRow("Tip:", card.front?.tip);
         head.appendChild(kv);
+        const revealBtn = document.createElement("button");
+        revealBtn.type = "button";
+        revealBtn.className = "reveal-btn";
+        revealBtn.textContent = "Reveal prompt";
+        head.appendChild(revealBtn);
         const body = document.createElement("div");
         body.className = "card-body";
         // --- Dynamic Prompt Logic ---
@@ -2029,9 +2059,11 @@
           block.appendChild(bottomBtnRow);
           body.appendChild(block);
         });
-        head.addEventListener("click", () => {
+        const toggleCard = () => {
           const isOpen = wrap.classList.contains("open");
-          document.querySelectorAll(".card.open").forEach((el) => el.classList.remove("open"));
+          document.querySelectorAll(".card.open").forEach((el) => {
+            el.classList.remove("open");
+          });
           if (!isOpen) {
             wrap.classList.add("open");
             setTimeout(() => {
@@ -2043,6 +2075,14 @@
               });
             }, 30);
           }
+        };
+        head.addEventListener("click", (e) => {
+          if (e.target.closest(".reveal-btn")) return;
+          toggleCard();
+        });
+        revealBtn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          toggleCard();
         });
         wrap.appendChild(head);
         wrap.appendChild(body);
